@@ -10,19 +10,18 @@ class BFVSchemeConfiguration:
         """
         self.t = int(t)
         self.q = int(q)
-        self.k = 1 # BFV scheme (and other RLWS) have k=1
         self.n = int(n)
         self.ternary = ternary
         self.Delta = q // t
     
     def is_A_valid(self, A) -> bool:
         """
-        Checks that A is a k x n array of integers modulo q
+        Checks that A is a "n" long array of integers modulo q
         """
-        # Must be (k, n) shape
+        # Must be length n
         if not isinstance(A, np.ndarray):
             raise TypeError("A must be a numpy array")
-        if A.shape != (self.k, self.n):
+        if len(A) != self.n:
             return False
         if not np.all((0 <= A) & (A < self.q)):
             return False
@@ -38,7 +37,7 @@ class BFVSchemeConfiguration:
         """
         if not isinstance(B, np.ndarray):
             raise TypeError("B must be a numpy array")
-        if B.shape != (self.n,):
+        if len(B) != self.n:
             return False
         if not np.all((0 <= B) & (B < self.q)):
             return False

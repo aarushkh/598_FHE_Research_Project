@@ -7,14 +7,15 @@ class BFVSchemeClient:
         """
         :param config: the BFV scheme configuration containing all required parameters and settings
         """
+        assert isinstance(config, BFVSchemeConfiguration)
         self.config = config
         # Secret key: polynomial degree n-1, n coefficients in {-1,0,1} or {0,1}
         if config.ternary:
-            self._S = np.random.choice([-1, 0, 1], size=n)
+            self._S = np.random.choice([-1, 0, 1], size=n) % config.q # in practice you need to take this mod q (at least I think)
         else:
             self._S = np.random.choice([0, 1], size=n)
 
-    def polynomial_mul_modq(self, A, B):
+    def polynomial_mul(self, A, B):
         return polynomial_mult_nomod(self.config,A,B)
 
     def encrypt(self, M: np.ndarray):
@@ -25,7 +26,7 @@ class BFVSchemeClient:
             B: size n, the result poly mod q.
         """
         # Message encoding
-        M = np.array(M) % self.config.t                      # size n
+        M = np.array(M).flatten() % self.config.t                      # size n
         DeltaM = (M * self.config.Delta) % self.config.q            # size n
         # random A (public key), n coefficients mod q, size n
         A = np.random.randint(0, self.config.q, size=self.config.n)
@@ -77,16 +78,21 @@ class BFVSchemeServer:
 if __name__ == "__main__":
     t = 17             # example prime
     n = 8              # degree + 1 => degree 7 polynomials
-    k = 2
     q = 65299          # q >> t, t divides q, 17*3837
-    message = np.array([1 , 2, 3 ,4 ,5 ,6, 7, 8])
+    message1 = np.array([1 , 2, 3 ,4 ,5 ,6, 7, 8])
+    message2 = np.array([2 , 1, 4 ,3 ,6 ,5, 8, 7])
 
-    config = BFVSchemeConfiguration(t, q, k, n, True)
+    # setup
+    config = BFVSchemeConfiguration(t, q, n, False)
     client = BFVSchemeClient(config)
     server = BFVSchemeServer(config)
-    cipher = client.encrypt(message)
-    print(cipher)
-    A1, B1 = cipher
-    A2, B2 = cipher
+    # encrypt messages
+    cipher1 = client.encrypt(message1)
+    cipher2 = client.encrypt(message2)
+    A1, B1 = cipher1
+    A2, B2 = cipher2
     computed_cipher = server.add_ciphercipher(A1, B1, A2, B2)
-    print(computed_cipher)
+    # decrypt
+    Ao, Bo = computed_cipher
+    result = client.decrypt(Ao, Bo)
+    print(np.round(result))
