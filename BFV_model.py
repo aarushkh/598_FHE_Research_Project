@@ -51,6 +51,10 @@ class BFVSchemeServer:
     def __init__(self, config: BFVSchemeConfiguration):
         self.config = config
 
+    # helper function
+    def polynomial_mul(self, A, B):
+        return polynomial_mult_nomod(self.config,A,B)
+
     def encode(self, P):
         # this is not really implemented yet (hopefully we dont need it)
         M = np.array(P) % self.config.t
@@ -71,8 +75,8 @@ class BFVSchemeServer:
     
     def mul_cipherplain(self, A1, B1, P2):
         encoding = self.encode(P2)
-        Anew = A1 * encoding
-        Bnew = B1 * encoding
+        Anew = self.polynomial_mul(A1, encoding) % self.config.q
+        Bnew = self.polynomial_mul(B1, encoding) % self.config.q
         return Anew, Bnew
 
 
