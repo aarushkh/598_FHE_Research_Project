@@ -18,6 +18,7 @@ class BFVSchemeConfiguration:
         assert is_t_minus_1_multiple_of_2n(self.t,self.n), "t-1 must be a multiple of 2n"
         self.ternary = ternary
         self.Delta = q // t
+        assert self.Delta%2==0, "q must be an even multiple of t"
         # get encode/decode matrices
         self._E , self._WT = batch_encode_decode_matrices(n,t)
     
@@ -86,7 +87,7 @@ class BFVSchemeConfiguration:
     
     def batch_decode(self, m: np.ndarray) -> np.ndarray:
         assert len(m)==self.n, "plaintext bad length"
-        mcol = m.reshape(self.n, 1)#.astype(object)
+        mcol = m.reshape(self.n, 1)
         v = (self._WT @ mcol) % self.t
-        return v.flatten().astype(object)
+        return v.flatten()
 
