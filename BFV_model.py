@@ -1,6 +1,7 @@
 # BFV_model.py
 import numpy as np
 from BFV_config import BFVSchemeConfiguration
+from generic_math import gen_uniform_rand_arr, nparr_int_round
 
 class BFVSchemeClient:
     def __init__(self, config: BFVSchemeConfiguration):
@@ -29,7 +30,7 @@ class BFVSchemeClient:
         M = self.config.batch_encode(np.array(P).flatten() % self.config.t)
         DeltaM = (M * self.config.Delta) % self.config.q            # size n
         # random A (public key), n coefficients mod q, size n
-        A = np.random.randint(0, self.config.q, size=self.config.n)
+        A = gen_uniform_rand_arr(0, self.config.q, size=self.config.n)
         # small noise E (centered discrete gaussian)
         E = np.round(np.random.normal(0, 1, size=self.config.n)).astype(int)
         # B = -A*S + DeltaM + E, all mod q, S is persistent secret key
@@ -41,13 +42,13 @@ class BFVSchemeClient:
     def decrypt(self, A, B):
         self.config.validate_AB(A,B)
         inverseu  = (B + self.polynomial_mul(A, self._S)) % self.config.q
-        inverseu = inverseu.astype(int)
         # centre-lift to (-q/2 , q/2]
         mask = inverseu > self.config.q // 2 # Boolean array
         inverseu[mask] -= self.config.q
-        m_scaled = np.round(inverseu / self.config.Delta).astype(int)  # now ~ M
+        m_scaled = nparr_int_round(inverseu, self.config.Delta)
         m = m_scaled % self.config.t # remove Delta and reduce
-        return self.config.batch_decode(m)
+        decode_v = self.config.batch_decode(m)
+        return decode_v
 
 
 class BFVSchemeServer:
