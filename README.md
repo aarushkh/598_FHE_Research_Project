@@ -1,13 +1,13 @@
 # 598_FHE_Research_Project
 
-Directory Structure
-├── pymodel
-│   ├── BFV_config.py          # Scheme configuration and utility functions
-│   ├── BFV_model.py           # Core BFV encrypt/decrypt, client/server
-│   ├── generic_math.py        # Number-theoretic and polynomial helpers
-│   └── run.py                 # Usage example and basic tests
-├── rtl/                       # (To be implemented) RTL Verilog source
-└── README.md
+Directory Structure  
+├── pymodel  
+│   ├── BFV_config.py          # Scheme configuration and utility functions  
+│   ├── BFV_model.py           # Core BFV encrypt/decrypt, client/server  
+│   ├── generic_math.py        # Number-theoretic and polynomial helpers  
+│   └── run.py                 # Usage example and basic tests  
+├── rtl/                       # (To be implemented) RTL Verilog source  
+└── README.md  
 
 ## Python Reference Implementation of the BFV Homomorphic Encryption Scheme
 This repository provides a Python model of the Brakerski/Fan-Vercauteren (BFV) homomorphic encryption scheme, designed as a correctness and experimentation harness ahead of a hardware (RTL Verilog) implementation.
