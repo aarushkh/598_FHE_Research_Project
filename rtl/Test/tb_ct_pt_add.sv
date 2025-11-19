@@ -18,13 +18,7 @@ module tb_ct_pt_add;
   PT_t gamma;
 
   // Instantiate DUT and PASS q, Δ explicitly
-  ct_pt_add #(
-    .N     (N_SLOTS_L),
-    .W     (W_BITS_L),
-    .WW    (2*W_BITS_L),
-    .QP    (16'd7710),   // q
-    .DELTAP(16'd30)      // Δ
-  ) dut (
+  ct_pt_add dut (
     .in_ct   (in_ct),
     .in_gamma(gamma),
     .out_ct  (out_ct)

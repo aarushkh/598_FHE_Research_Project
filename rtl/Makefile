@@ -1,3 +1,6 @@
+# Define common module dependencies
+COMMON_MODULES = verilog/adder.sv verilog/mult.sv verilog/mod_vector.sv verilog/mod_single.sv
+
 DUT_CTCT  = verilog/ct_ct_add.sv
 TB_CTCT   = test/tb_ct_add.sv     
 
@@ -10,7 +13,7 @@ SIM_CTPT  = $(SIMDIR)/simv_ctpt
 .PHONY: all
 all: run-all
 
-$(SIM_CTPT): $(DUT_CTPT) $(TB_CTPT)
+$(SIM_CTPT): $(DUT_CTPT) $(TB_CTPT) $(COMMON_MODULES)
 	@mkdir -p $(SIMDIR) $(SIMDIR)/csrc
 	module load vcs/2023.12-SP2-1 || true
 	vcs -sverilog -full64 -timescale=1ns/1ps \
@@ -22,9 +25,9 @@ $(SIM_CTPT): $(DUT_CTPT) $(TB_CTPT)
 	    +define+DELTA=30 \
 	    -Mdir=$(SIMDIR)/csrc -o $(SIM_CTPT) \
 	    -debug_access+all +v2k \
-	    $(DUT_CTPT) $(TB_CTPT)
+	    $(COMMON_MODULES) $(DUT_CTPT) $(TB_CTPT)
 
-$(SIM_CTCT): $(DUT_CTCT) $(TB_CTCT)
+$(SIM_CTCT): $(DUT_CTCT) $(TB_CTCT) $(COMMON_MODULES)
 	@mkdir -p $(SIMDIR) $(SIMDIR)/csrc
 	module load vcs/2023.12-SP2-1 || true
 	vcs -sverilog -full64 -timescale=1ns/1ps \
@@ -36,7 +39,7 @@ $(SIM_CTCT): $(DUT_CTCT) $(TB_CTCT)
 	    +define+DELTA=30 \
 	    -Mdir=$(SIMDIR)/csrc -o $(SIM_CTCT) \
 	    -debug_access+all +v2k \
-	    $(DUT_CTCT) $(TB_CTCT)
+	    $(COMMON_MODULES) $(DUT_CTCT) $(TB_CTCT)
 
 
 # ---- Files for ct_pt_mult ----
@@ -44,7 +47,7 @@ DUT_CTPTM = verilog/ct_pt_mult.sv
 TB_CTPTM  = test/tb_ct_pt_mult.sv
 SIM_CTPTM = $(SIMDIR)/simv_ctptmult
 
-$(SIM_CTPTM): $(DUT_CTPTM) $(TB_CTPTM)
+$(SIM_CTPTM): $(DUT_CTPTM) $(TB_CTPTM) $(COMMON_MODULES)
 	@mkdir -p $(SIMDIR) $(SIMDIR)/csrc
 	module load vcs/2023.12-SP2-1 || true
 	vcs -sverilog -full64 -timescale=1ns/1ps \
@@ -56,7 +59,7 @@ $(SIM_CTPTM): $(DUT_CTPTM) $(TB_CTPTM)
 	    +define+DELTA=30 \
 	    -Mdir=$(SIMDIR)/csrc -o $(SIM_CTPTM) \
 	    -debug_access+all +v2k \
-	    $(DUT_CTPTM) $(TB_CTPTM)
+	    $(COMMON_MODULES) $(DUT_CTPTM) $(TB_CTPTM)
 
 .PHONY: run-ctptmult
 run-ctptmult: $(SIM_CTPTM)
