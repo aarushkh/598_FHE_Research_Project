@@ -104,6 +104,10 @@ class BFVSchemeServer:
         for _ in range(self.config.num_digits):
             digit = (temp % self.config.base)
 
+            digit = digit // (self.config.base ** i) % self.config.base
+
+            # (2^x)=^i
+            digit = (digit >> x*i) % 2
             temp = temp // self.config.base
             
             decomp.append(digit)

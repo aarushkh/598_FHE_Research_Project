@@ -18,11 +18,7 @@ module tb_ct_pt_mult;
   PT_t gamma;
 
   // Instantiate DUT (uses q from types.svh; Makefile pushes +define+Q_MOD=7710)
-  ct_pt_mult #(
-    .N (N_SLOTS_L),
-    .W (W_BITS_L),
-    .WW(2*W_BITS_L)
-  ) dut (
+  ct_pt_mult dut (
     .in_ct   (in_ct),
     .in_gamma(gamma),
     .out_ct  (out_ct)

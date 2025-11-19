@@ -8,7 +8,7 @@
 module tb_ct_add;
   localparam int N = N_SLOTS_L;
   CT_t in1, in2, out;
-  ct_ct_add #(.N(N_SLOTS_L), .W(W_BITS_L), .QP(16'd7710)) dut (
+  ct_ct_add dut (
     .in_ct1 (in1),
     .in_ct2 (in2),
     .out_ct (out)
