@@ -134,5 +134,3 @@ if {  $dc_shell_status != [list] } {
 } else {
    quit
 }
-
-
