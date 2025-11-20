@@ -28,7 +28,7 @@ set clock_name clk
 set reset_name reset
 
 # Clock period in ns
-set CLK_PERIOD 1
+set CLK_PERIOD 20
 
 
 #/***********************************************************/
