@@ -1,0 +1,41 @@
+ 
+****************************************
+Report : clock timing
+        -type summary
+Design : ntt_block_radix2_pipelined
+Version: V-2023.12-SP5
+Date   : Sun Dec  7 23:21:59 2025
+****************************************
+
+  Clock: core_clk
+----------------------------------------------------------------------------
+  Maximum setup launch latency:
+      mode_pipe_reg_0_/CLK                                   0.20      wr-+
+
+  Minimum setup capture latency:
+      mode_pipe_reg_0_/CLK                                   0.20      wr-+
+
+  Minimum hold launch latency:
+      mode_pipe_reg_0_/CLK                                   0.20      br-+
+
+  Maximum hold capture latency:
+      mode_pipe_reg_0_/CLK                                   0.20      br-+
+
+  Maximum active transition:
+      mode_pipe_reg_0_/CLK                                   0.08      wr-+
+
+  Minimum active transition:
+      mode_pipe_reg_0_/CLK                                   0.08      wr-+
+
+  Maximum setup skew:
+      STAGE_LOOP_0__GROUP_LOOP_0__BFLY_LOOP_0__ntt_bfly_inst_pipe_A_reg_reg_0_/CLK
+                                                                       wr-+
+      stage_regs_reg_1__0__0_/CLK                            0.00      wr-+
+
+  Maximum hold skew:
+      STAGE_LOOP_0__GROUP_LOOP_0__BFLY_LOOP_0__ntt_bfly_inst_pipe_A_reg_reg_0_/CLK
+                                                                       br-+
+      stage_regs_reg_1__0__0_/CLK                            0.00      br-+
+----------------------------------------------------------------------------
+
+1
