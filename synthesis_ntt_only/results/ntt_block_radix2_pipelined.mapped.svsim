@@ -1,0 +1,33 @@
+`ifndef SYNTHESIS
+
+//
+// This is an automatically generated file from 
+// dc_shell Version V-2023.12-SP5 -- Jul 16, 2024
+//
+
+// For simulation only. Do not modify.
+
+module ntt_block_radix2_pipelined_svsim #(
+    parameter W           = 32,
+    parameter N           = 4,
+    parameter logic unsigned [2*W-1:0] Modulus_Q   = 2147483777,
+    parameter OMEGA       = 30,
+    parameter OMEGA_INV   = 233
+) (
+    input  logic clk,
+    input  logic reset,
+    
+        input  logic data_valid_in,     input  logic iNTT_mode,     
+        input  logic [W-1:0] Data_in [0:N-1],
+
+        output logic [W-1:0] Data_out [0:N-1],
+    output logic         data_valid_out,     output logic         mode_out        );
+
+        
+
+  ntt_block_radix2_pipelined ntt_block_radix2_pipelined( {>>{ clk }}, 
+        {>>{ reset }}, {>>{ data_valid_in }}, {>>{ iNTT_mode }}, 
+        {>>{ Data_in }}, {>>{ Data_out }}, {>>{ data_valid_out }}, 
+        {>>{ mode_out }} );
+endmodule
+`endif
